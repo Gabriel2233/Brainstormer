@@ -2,12 +2,11 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   background: var(--main-white);
-  width: 100%;
-
+  box-shadow: 0px 4px 10px 0px var(--shadow);
+  width: 100vw;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0px 4px 14px 0px var(--shadow);
 `;
 
 export const IconNameGroup = styled.header`
@@ -20,5 +19,6 @@ export const IconNameGroup = styled.header`
     letter-spacing: 0.2rem;
     color: var(--main-black);
     padding: 0 8px;
+    cursor: pointer;
   }
 `;

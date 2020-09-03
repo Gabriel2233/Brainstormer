@@ -1,14 +1,16 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
   :root {
     --main-white: #fff;
-    --secondary-white: #f7f4ea;
+    --secondary-white: #f0f0f0;
+    --light-gray: #ebf2f7;
     --main-black: #222;
-    --secondary-black: #444;
+    --secondary-black: #555;
     --shadow: #bfcbc2;
     --main-salmon: #fe938c;
     --dark-salmon: #f08080;
+    --shadow-salmon: #fe938c55;
   }
 
   * {
