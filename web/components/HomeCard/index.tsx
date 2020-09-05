@@ -9,8 +9,6 @@ interface Props {
 }
 
 const HomeCard: React.FC<Props> = ({ children, cardTitle, cardContent }) => {
-  console.log(cardContent);
-
   return (
     <Card>
       {children}

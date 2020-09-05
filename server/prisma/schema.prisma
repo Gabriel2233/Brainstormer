@@ -1,0 +1,30 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Brainstorm {
+  id        Int      @default(autoincrement()) @id
+  createdAt DateTime @default(now())
+  title     String
+  active    Boolean  @default(false)
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int
+}
+
+//DATABASE_URL="postgresql://tcggiixvwjestl:4a8275f47d8a5de7e769a32f29b6301a3ce97ae98cdd394ac52d74b7ac45eb9b@localhost:5432/d70o3q37slm72t?schema=public"
+
+model User {
+  id         Int          @default(autoincrement()) @id
+  email      String       @unique
+  name       String
+  password   String       @unique
+  Brainstorm Brainstorm[]
+}

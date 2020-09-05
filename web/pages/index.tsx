@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import Header from "../components/Header";
 import { FaQuestion, FaBook, FaHandsHelping } from "react-icons/fa";
 import {
@@ -9,7 +8,6 @@ import {
   CardsGroup,
   SignInButton,
 } from "../styles/HomeStyles";
-
 import Card from "../components/HomeCard";
 
 export default function Home() {

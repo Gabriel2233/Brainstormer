@@ -8,10 +8,10 @@ export const Card = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background: var(--secondary-white);
+  background: var(--main-white);
   transition: 0.1s linear;
   cursor: pointer;
-  border: 0;
+  border: 2px solid var(--light-gray);
   border-radius: 8px;
   margin: 0 48px;
   padding: 8px;
@@ -37,7 +37,6 @@ export const Card = styled.div`
   }
 
   &:hover {
-    transform: translateY(-8px);
-    background: var(--shadow-salmon);
+    transform: translateY(-6px);
   }
 `;

@@ -6,7 +6,7 @@ import Header from "../components/Header";
 const UserDashboard: React.FC = () => {
   return (
     <Container>
-      <Header />
+      <Header></Header>
       <CreateButton>
         <FiPlus size={24} color="var(--main-white)" />
       </CreateButton>

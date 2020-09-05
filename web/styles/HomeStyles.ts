@@ -18,7 +18,7 @@ export const MainContentWrapper = styled.main`
 
 export const Heading = styled.div`
   font: 900 10rem Inter;
-  padding: 64px 0;
+  padding: 16px 0;
   text-align: center;
   margin: 64px 0;
 `;

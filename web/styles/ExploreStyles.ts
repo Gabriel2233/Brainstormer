@@ -10,7 +10,6 @@ export const Container = styled.div`
 `;
 
 export const MainContent = styled.main`
-  margin: 0 auto;
   width: 100%;
   max-width: 1026px;
 
