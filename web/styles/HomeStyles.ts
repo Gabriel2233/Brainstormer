@@ -6,6 +6,7 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
+  z-index: 6;
 `;
 
 export const MainContentWrapper = styled.main`
@@ -35,7 +36,7 @@ export const SignInButton = styled.button`
   transition: 0.2s linear;
 
   &:hover {
-    background: var(--dark-salmon);
+    transform: scale(1.1);
   }
 `;
 
@@ -51,7 +52,7 @@ export const JoinButton = styled.button`
   margin-bottom: 16px;
 
   &:hover {
-    background: var(--dark-salmon);
+    transform: scale(1.1);
   }
 `;
 

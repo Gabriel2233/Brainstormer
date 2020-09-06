@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Header from "../components/Header";
 import { FaQuestion, FaBook, FaHandsHelping } from "react-icons/fa";
 import {
@@ -9,13 +10,14 @@ import {
   SignInButton,
 } from "../styles/HomeStyles";
 import Card from "../components/HomeCard";
+import LoginModal from "../components/LoginModal";
 
 export default function Home() {
+  const [modalActive, setModalActive] = useState<boolean>(false);
+
   return (
     <Container>
-      <Header>
-        <SignInButton>Sign In</SignInButton>
-      </Header>
+      <Header></Header>
 
       <MainContentWrapper>
         <Heading>
@@ -24,7 +26,9 @@ export default function Home() {
           <span style={{ color: "var(--main-salmon)" }}>.</span>
         </Heading>
 
-        <JoinButton>Start Brainstorming</JoinButton>
+        <JoinButton onClick={() => setModalActive(!modalActive)}>
+          Start Brainstorming
+        </JoinButton>
 
         <CardsGroup>
           <Card
@@ -49,6 +53,10 @@ export default function Home() {
           </Card>
         </CardsGroup>
       </MainContentWrapper>
+
+      {modalActive && (
+        <LoginModal setModalActive={setModalActive} modalActive={modalActive} />
+      )}
     </Container>
   );
 }

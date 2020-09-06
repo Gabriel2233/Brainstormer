@@ -2,6 +2,7 @@ import React from "react";
 import { FiPlus } from "react-icons/fi";
 import { Container, CreateButton } from "../styles/UserDashboardStyles";
 import Header from "../components/Header";
+import { ProtectRoute } from "../utils/ProtectedRoute";
 
 const UserDashboard: React.FC = () => {
   return (
@@ -14,4 +15,4 @@ const UserDashboard: React.FC = () => {
   );
 };
 
-export default UserDashboard;
+export default ProtectRoute(UserDashboard);

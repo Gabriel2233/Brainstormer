@@ -20,6 +20,5 @@ export const CreateButton = styled.button`
 
   &:hover {
     box-shadow: 0px 4px 10px 0px var(--shadow);
-    background: var(--dark-salmon);
   }
 `;

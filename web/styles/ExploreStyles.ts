@@ -31,11 +31,10 @@ export const SearchInput = styled.input`
   margin: 36px 0px;
   padding: 12px 16px;
   font: 1.5rem 500 Inter;
-  border: 0;
+  border: 2px solid var(--light-gray);
   width: 60%;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
-  background: var(--light-gray);
 
   &::placeholder {
     color: var(--secondary-black);
@@ -46,7 +45,7 @@ export const SearchButton = styled.button`
   background: var(--main-salmon);
   display: block;
   padding: 10px;
-  border: 0;
+  border: 1.5px solid var(--main-salmon);
   cursor: pointer;
   font-size: 1rem;
   border-top-right-radius: 10px;

@@ -13,8 +13,7 @@ export const Card = styled.div`
   cursor: pointer;
   border: 2px solid var(--light-gray);
   border-radius: 8px;
-  margin: 0 48px;
-  padding: 8px;
+  margin: 48px;
 
   #icon {
     margin: 16px 0;

@@ -1,16 +1,17 @@
 import { createGlobalStyle } from "styled-components";
 
+//fe938c
+
 export default createGlobalStyle`
   :root {
     --main-white: #fff;
     --secondary-white: #f0f0f0;
     --light-gray: #ebf2f7;
     --main-black: #222;
-    --secondary-black: #555;
+    --light-black: #22222266;
+    --secondary--black: #555;
     --shadow: #bfcbc2;
-    --main-salmon: #fe938c;
-    --dark-salmon: #f08080;
-    --shadow-salmon: #fe938c55;
+    --main-salmon: #ff686b;   
   }
 
   * {
@@ -25,9 +26,8 @@ export default createGlobalStyle`
   }
 
   html, body {
-    background: var(--secondary-white);
-    height: 100vh;
-    width: 100vw;
+    background: var(--main-white);
+    min-height: 100%;
     text-rendering: optimizelegibility;
     -webkit-font-smoothing: antialiased;
   }

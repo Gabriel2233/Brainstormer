@@ -262,14 +262,7 @@
     {
       "tag": "CreateField",
       "model": "User",
-      "field": "name",
-      "type": "String",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateField",
-      "model": "User",
-      "field": "password",
+      "field": "issuer",
       "type": "String",
       "arity": "Required"
     },
@@ -279,7 +272,7 @@
         "path": {
           "tag": "Field",
           "model": "User",
-          "field": "password"
+          "field": "issuer"
         },
         "directive": "unique"
       }
