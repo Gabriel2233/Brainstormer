@@ -1,6 +1,9 @@
 import styled from "styled-components";
 
-export const Container = styled.div``;
+export const Container = styled.div`
+  width: 100vw;
+  height: 100vh;
+`;
 
 export const CreateButton = styled.button`
   position: fixed;
@@ -22,3 +25,25 @@ export const CreateButton = styled.button`
     box-shadow: 0px 4px 10px 0px var(--shadow);
   }
 `;
+
+export const IconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0px 4px;
+  width: 38px;
+  height: 38px;
+  background: var(--light-gray);
+  border: 0;
+  border-radius: 50%;
+`;
+
+export const UserWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 16px;
+  cursor: pointer;
+`;
+
+export const MyBrainstormsContainer = styled.div``;

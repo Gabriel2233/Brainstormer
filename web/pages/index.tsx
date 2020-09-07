@@ -1,4 +1,4 @@
-import { useState } from "react";
+import Link from "next/link";
 import Header from "../components/Header";
 import { FaQuestion, FaBook, FaHandsHelping } from "react-icons/fa";
 import {
@@ -10,14 +10,15 @@ import {
   SignInButton,
 } from "../styles/HomeStyles";
 import Card from "../components/HomeCard";
-import LoginModal from "../components/LoginModal";
 
 export default function Home() {
-  const [modalActive, setModalActive] = useState<boolean>(false);
-
   return (
     <Container>
-      <Header></Header>
+      <Header>
+        <Link href="/login">
+          <SignInButton>Log In</SignInButton>
+        </Link>
+      </Header>
 
       <MainContentWrapper>
         <Heading>
@@ -26,9 +27,9 @@ export default function Home() {
           <span style={{ color: "var(--main-salmon)" }}>.</span>
         </Heading>
 
-        <JoinButton onClick={() => setModalActive(!modalActive)}>
-          Start Brainstorming
-        </JoinButton>
+        <Link href="/login">
+          <JoinButton>Start Brainstorming</JoinButton>
+        </Link>
 
         <CardsGroup>
           <Card
@@ -53,10 +54,6 @@ export default function Home() {
           </Card>
         </CardsGroup>
       </MainContentWrapper>
-
-      {modalActive && (
-        <LoginModal setModalActive={setModalActive} modalActive={modalActive} />
-      )}
     </Container>
   );
 }

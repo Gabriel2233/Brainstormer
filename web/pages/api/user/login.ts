@@ -1,17 +1,14 @@
 import { magic } from "../../../lib/magic";
 import { encryptCookie, cookie } from "../../../lib/cookie";
+import { prisma } from "../../../lib/prisma";
 import { serialize, CookieSerializeOptions } from "cookie";
-import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-
-const prisma = new PrismaClient();
 
 interface User {
   email: string;
   issuer: string;
 }
 
-/* save new user to database */
 const signup = async (user: User) => {
   let newUser = {
     email: user.email,

@@ -1,28 +1,19 @@
 import styled from "styled-components";
 
+interface SubmitProps {
+  cursorType: string;
+}
+
 export const Container = styled.div`
   width: 100vw;
   height: 100vh;
+  background: var(--main-white);
 
-  position: fixed;
-  top: 0;
   z-index: 999;
 
-  background: var(--light-black);
   display: flex;
   align-items: center;
   justify-content: center;
-`;
-
-export const Wrapper = styled.div`
-  padding: 12px;
-  background: var(--main-white);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  border: 0;
-  border-radius: 8px;
 `;
 
 export const LoginForm = styled.div`
@@ -49,10 +40,10 @@ export const Heading = styled.div`
 `;
 
 export const EmailInput = styled.input`
-  width: 90%;
+  width: 50%;
   padding: 20px 16px;
-  background: var(--light-gray);
-  border: 0;
+  background: var(--main-white);
+  border: 2px solid var(--light-gray);
   border-radius: 4px;
   margin: 20px 0;
 
@@ -61,7 +52,7 @@ export const EmailInput = styled.input`
 
 export const SubmitButton = styled.button`
   display: block;
-  width: 90%;
+  width: 50%;
   padding: 20px 16px;
   border: 0;
   border-radius: 4px;
@@ -72,5 +63,5 @@ export const SubmitButton = styled.button`
   border: 0;
   border-radius: 4px;
   font: 600 2rem Inter;
-  cursor: pointer;
+  cursor: ${(props: SubmitProps) => props.cursorType};
 `;

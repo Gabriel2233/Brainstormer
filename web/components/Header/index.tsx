@@ -1,5 +1,5 @@
 import React from "react";
-import { FaBrain } from "react-icons/fa";
+import { GiBrain } from "react-icons/gi";
 import { Container, IconNameGroup } from "./styles";
 import Link from "next/link";
 
@@ -7,7 +7,7 @@ const Header: React.FC = ({ children }) => {
   return (
     <Container>
       <IconNameGroup>
-        <FaBrain size={32} color="var(--main-salmon)" />
+        <GiBrain size={32} color="var(--main-salmon)" />
         <Link href="/">
           <h2>Brainstormer</h2>
         </Link>

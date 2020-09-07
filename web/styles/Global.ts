@@ -9,7 +9,7 @@ export default createGlobalStyle`
     --light-gray: #ebf2f7;
     --main-black: #222;
     --light-black: #22222266;
-    --secondary--black: #555;
+    --secondary-black: #555;
     --shadow: #bfcbc2;
     --main-salmon: #ff686b;   
   }
