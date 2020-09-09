@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FiPlus } from "react-icons/fi";
 import { FaUserAstronaut } from "react-icons/fa";
 import { RiArrowDownSLine } from "react-icons/ri";
@@ -13,12 +13,50 @@ import Header from "../components/Header";
 import { ProtectRoute } from "../utils/ProtectedRoute";
 import UserInfoModal from "../components/UserInfoModal";
 import Link from "next/link";
+import SWR from "swr";
+import UserBrainstormCard from "../components/UserBrainstormCard";
+
+interface StormPiece {
+  brainstormId: number;
+  likes: number;
+  idea: string;
+}
+
+export interface Brainstorm {
+  title: string;
+  authorId: number;
+  createdAt: string;
+  id: number;
+  active: boolean;
+  stormPieces: StormPiece[];
+  likes: number;
+}
+
+interface ApiResponse {
+  myBrainstorms: Brainstorm[];
+}
+
+const fetcher = async (route: string) => {
+  const res = await fetch(route);
+  const data = await res.json();
+
+  return data;
+};
 
 const UserDashboard: React.FC = () => {
   const [userModalActive, setUserModalActive] = useState<boolean>(false);
 
   function toggleModal() {
     setUserModalActive(!userModalActive);
+  }
+
+  const { data, error } = SWR<ApiResponse>(
+    "/api/brainstorm/mybrainstorms",
+    fetcher
+  );
+
+  if (!data) {
+    return <h1>Loading...</h1>;
   }
 
   return (
@@ -38,7 +76,11 @@ const UserDashboard: React.FC = () => {
         </CreateButton>
       </Link>
 
-      <MyBrainstormsContainer></MyBrainstormsContainer>
+      <MyBrainstormsContainer>
+        {data.myBrainstorms.map((brainstorm: Brainstorm) => (
+          <UserBrainstormCard key={brainstorm.id} brainstormData={brainstorm} />
+        ))}
+      </MyBrainstormsContainer>
 
       {userModalActive && <UserInfoModal />}
     </Container>

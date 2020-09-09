@@ -1,15 +1,15 @@
-import { useEffect, useContext } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { AuthContext } from "../context/AuthContext";
+import useAuth from "../hooks/useAuth";
 
 export function ProtectRoute(Component) {
   return function () {
-    const { loggedIn, isLoading } = useContext(AuthContext);
+    const { user, loading } = useAuth();
     const Router = useRouter();
 
     useEffect(() => {
-      if (!loggedIn && !isLoading) Router.push("/");
-    }, [loggedIn, isLoading]);
+      if (!user && !loading) Router.push("/");
+    }, [user, loading]);
 
     return <Component {...arguments} />;
   };

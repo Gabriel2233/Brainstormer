@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -27,7 +27,7 @@ model Brainstorm {
   active      Boolean      @default(false)
   author      User         @relation(fields: [authorId], references: [id])
   authorId    Int
-  stormPieces StormPiece[] 
+  stormPieces StormPiece[]
   likes       Int          @default(0)
 }
 

@@ -7,9 +7,10 @@ export const Container = styled.div`
   border-radius: 8px;
 
   position: fixed;
+  top: 70px;
   right: 0;
   margin: 0px 16px;
-  z-index: 444;
+  z-index: 888;
 
   display: flex;
   align-items: center;

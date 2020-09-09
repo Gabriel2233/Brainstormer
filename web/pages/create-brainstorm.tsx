@@ -11,9 +11,30 @@ import {
 import Header from "../components/Header";
 import { ProtectRoute } from "../utils/ProtectedRoute";
 import { FcIdea } from "react-icons/fc";
+import Router from "next/router";
 
 const Creation: React.FC = () => {
   const [idea, setIdea] = useState<string>("");
+
+  async function createBrainstorm(e: FormEvent) {
+    try {
+      const response = await fetch(
+        "http://localhost:3000/api/brainstorm/create",
+        {
+          method: "POST",
+          body: idea,
+        }
+      );
+
+      if (response.ok) {
+        alert("Your brainstorm was succesfully created!");
+
+        Router.push("/user-dashboard");
+      }
+    } catch (err) {
+      alert(err);
+    }
+  }
 
   return (
     <Container>
@@ -36,7 +57,7 @@ const Creation: React.FC = () => {
               value={idea}
               onChange={(e) => setIdea(e.target.value)}
             />
-            <CreateButton>Create!</CreateButton>
+            <CreateButton onClick={createBrainstorm}>Create!</CreateButton>
           </Group>
         </CreateContainer>
       </FlexContainer>

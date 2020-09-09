@@ -8,6 +8,14 @@ interface Cookie {
   sameSite: string;
 }
 
+interface Metadata {
+  authorized: boolean;
+  user: {
+    email: string;
+    issuer: string;
+  };
+}
+
 export const cookie: Cookie = {
   maxAge: 60 * 60,
   secure: false,

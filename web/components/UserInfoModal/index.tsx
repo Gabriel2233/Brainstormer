@@ -1,14 +1,14 @@
 import React, { useContext } from "react";
-import { AuthContext } from '../../context/AuthContext'
+import { AuthContext } from "../../context/AuthContext";
 import { Container } from "./styles";
+import useAuth from "../../hooks/useAuth";
 
 const UserInfoModal: React.FC = () => {
-
-  const {loggedIn} = useContext(AuthContext)
+  const { user } = useAuth();
 
   return (
     <Container>
-      <p>{loggedIn}</p>
+      <p>{JSON.stringify(user)}</p>
       <hr />
       <button>Log Out</button>
     </Container>

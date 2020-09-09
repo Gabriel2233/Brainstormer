@@ -1,5 +1,4 @@
-import { useContext, useState, useEffect, FormEvent } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { useState, useEffect, FormEvent } from "react";
 import Router from "next/router";
 import { FaBrain } from "react-icons/fa";
 import {
@@ -9,50 +8,36 @@ import {
   EmailInput,
   SubmitButton,
 } from "../styles/LoginStyles";
+import { Magic } from "magic-sdk";
+import useAuth from "../hooks/useAuth";
 
 const Login: React.FC = () => {
-  const { isLoading, magic, setLoggedIn, loggedIn } = useContext(AuthContext);
+  const { user } = useAuth();
   const [email, setEmail] = useState("");
   const [disableLogin, setDisableLogin] = useState(false);
 
-  const authenticateWithDb = async (DIDT: string) => {
-    let res = await fetch(`/api/user/login`, {
+  const handleLogin = async (e: FormEvent) => {
+    e.preventDefault();
+
+    setDisableLogin(true);
+
+    const DIDT = await new Magic(
+      process.env.NEXT_PUBLIC_MAGIC_PUB_KEY
+    ).auth.loginWithMagicLink({ email });
+
+    const authenticateUser = await fetch(`/api/user/login`, {
       method: "POST",
       headers: new Headers({
         Authorization: "Bearer " + DIDT,
       }),
     });
 
-    let data = await res.json();
-    return data.authorized ? data.user : false;
-  };
-
-  const handleLogin = async (e: FormEvent) => {
-    e.preventDefault();
-
-    try {
-      setDisableLogin(true);
-
-      const DIDT = await magic.auth.loginWithMagicLink({ email });
-
-      let user = await authenticateWithDb(DIDT);
-
-      if (user) {
-        setLoggedIn(user.email);
-        Router.push("/user-dashboard");
-      }
-    } catch (err) {
-      setDisableLogin(false);
-
-      console.log(`Error logging in with Magic, ${err}`);
-    }
-  };
-
-  useEffect(() => {
-    if (loggedIn) {
+    if (authenticateUser.ok) {
       Router.push("/user-dashboard");
+    } else {
+      alert("There was an error while logging you in. Pleas try again.");
     }
-  }, [loggedIn]);
+  };
 
   return (
     <Container>

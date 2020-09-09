@@ -46,4 +46,12 @@ export const UserWrapper = styled.div`
   cursor: pointer;
 `;
 
-export const MyBrainstormsContainer = styled.div``;
+export const MyBrainstormsContainer = styled.div`
+  width: 90%;
+  max-width: 980px;
+  margin: auto;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-gap: 20px;
+`;

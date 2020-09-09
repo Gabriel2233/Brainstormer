@@ -1,7 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 
 //fe938c
-
+//#ebf2f7;
 export default createGlobalStyle`
   :root {
     --main-white: #fff;
