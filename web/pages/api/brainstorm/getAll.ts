@@ -7,9 +7,7 @@ interface User {
 }
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-
   try {
-
     const allBrainstorms = await prisma.brainstorm.findMany({
       include: {
         author: true,

@@ -9,6 +9,7 @@ export const Container = styled.div`
   border: 2px solid var(--light-gray);
   border-radius: 8px;
   background: var(--light-white);
+  cursor: pointer;
 `;
 
 export const BrainstormInfo = styled.div`

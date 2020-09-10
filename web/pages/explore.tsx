@@ -1,6 +1,4 @@
 import React from "react";
-import Head from "next/head";
-import { GetServerSideProps } from "next";
 import Header from "../components/Header";
 import { FiSearch } from "react-icons/fi";
 import {

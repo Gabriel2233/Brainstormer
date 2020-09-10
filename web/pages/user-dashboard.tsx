@@ -78,7 +78,11 @@ const UserDashboard: React.FC = () => {
 
       <MyBrainstormsContainer>
         {data.myBrainstorms.map((brainstorm: Brainstorm) => (
-          <UserBrainstormCard key={brainstorm.id} brainstormData={brainstorm} />
+          <Link key={brainstorm.id} href={`/brainstorm/${brainstorm.id}`}>
+            <div>
+              <UserBrainstormCard brainstormData={brainstorm} />
+            </div>
+          </Link>
         ))}
       </MyBrainstormsContainer>
 
