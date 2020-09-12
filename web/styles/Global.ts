@@ -4,6 +4,7 @@ import { createGlobalStyle } from "styled-components";
 //#ebf2f7;
 export default createGlobalStyle`
   :root {
+    --brainstorm-bg: #ecf1f7;
     --main-white: #fff;
     --secondary-white: #f0f0f0;
     --light-gray: #ebf2f7;

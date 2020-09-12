@@ -17,6 +17,7 @@ import SWR from "swr";
 import UserBrainstormCard from "../components/UserBrainstormCard";
 
 interface StormPiece {
+  id: number;
   brainstormId: number;
   likes: number;
   idea: string;
