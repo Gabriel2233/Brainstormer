@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { decryptCookie } from "../../../lib/cookie";
 import { prisma } from "../../../lib/prisma";
-import { StormPieceCreateManyWithoutBrainstormInput } from "@prisma/client";
 
 interface User {
   email: string;
@@ -9,29 +8,36 @@ interface User {
 }
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method !== "POST") res.status(405).end();
+  if (req.method !== "PUT") return res.status(405).end;
 
   let userFromCookie: User;
 
   try {
     userFromCookie = await decryptCookie(req.cookies.auth);
 
-    if (!userFromCookie) {
+    if (!userFromCookie.email) {
       throw new Error("Cannot find user. Unable to proceed with creation.");
     }
 
-    const idea: string = req.body;
+    const userEmail = userFromCookie.email;
 
-    const creatorEmail = userFromCookie.email;
+    const body: { active: string } = JSON.parse(req.body);
 
-    await prisma.brainstorm.create({
+    const active = body.active === "true" ? true : false;
+
+    const userInDb = await prisma.user.findOne({
+      where: {
+        email: userEmail,
+      },
+    });
+
+    await prisma.brainstorm.update({
       data: {
-        stormPieces: [] as StormPieceCreateManyWithoutBrainstormInput,
-        title: idea,
-        active: true,
-        author: {
-          connect: { email: creatorEmail },
-        },
+        active,
+      },
+
+      where: {
+        id: userInDb.id,
       },
     });
 

@@ -56,11 +56,3 @@ export const JoinButton = styled.button`
   }
 `;
 
-export const CardsGroup = styled.div`
-  width: 100vw;
-  margin: 50px 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-`;

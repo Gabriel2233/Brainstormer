@@ -28,16 +28,6 @@ export const HeaderText = styled.h2`
   font: 600 1.8rem Inter;
 `;
 
-export const MainContent = styled.div`
-  width: 100%;
-
-  > h2 {
-    font: 500 1.5rem Inter;
-    color: var(--secondary-black);
-    margin: 52px;
-  }
-`;
-
 export const Group = styled.div`
   display: flex;
   align-items: center;
@@ -51,7 +41,7 @@ export const Group = styled.div`
   }
 `;
 
-export const CreateButton = styled.button`
+export const CollaborateButton = styled.button`
   padding: 10px;
   background: var(--main-salmon);
   color: var(--main-white);
@@ -70,10 +60,20 @@ export const CreateButton = styled.button`
   justify-content: center;
 `;
 
+export const MainContent = styled.div`
+  width: 100%;
+
+  > h2 {
+    font: 500 1.5rem Inter;
+    color: var(--secondary-black);
+    margin: 52px;
+  }
+`;
+
 export const StormPiecesGrid = styled.div`
   width: 90%;
-  max-width: 980px;
-  margin: auto;
+  max-width: 960px;
+  margin: 0 auto;
 
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));

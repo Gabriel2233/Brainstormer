@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Switch from "react-switch";
 import {
   Container,
@@ -15,7 +15,23 @@ interface Props {
 }
 
 const UserBrainstormCard: React.FC<Props> = ({ brainstormData }) => {
-  const [checked, setChecked] = useState(true);
+  const [active, setActive] = useState<boolean>(brainstormData.active);
+
+  // async function handleActiveness() {
+  //   setActive(!active);
+  //   try {
+  //     await fetch("/api/brainstorm/update", {
+  //       method: "PUT",
+  //       body: JSON.stringify(active),
+  //     });
+  //   } catch (err) {
+  //     alert(err);
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   console.log("changed");
+  // }, [active]);
 
   return (
     <Container>
@@ -23,11 +39,9 @@ const UserBrainstormCard: React.FC<Props> = ({ brainstormData }) => {
         <p>Brainstorm</p>
         <p>6h ago</p>
       </BrainstormInfo>
-
       <BrainstormTitle>
         <h3>{brainstormData.title}</h3>
       </BrainstormTitle>
-
       <Active>
         <Group>
           <p>Active:</p>
@@ -35,8 +49,8 @@ const UserBrainstormCard: React.FC<Props> = ({ brainstormData }) => {
             offHandleColor="#eee"
             onHandleColor="#eee"
             draggable={false}
-            onChange={() => setChecked(!checked)}
-            checked={checked}
+            onChange={() => setActive(!active)}
+            checked={active}
             checkedIcon={false}
             uncheckedIcon={false}
             height={15}
@@ -48,8 +62,10 @@ const UserBrainstormCard: React.FC<Props> = ({ brainstormData }) => {
         </Group>
 
         <StormPieces>
-          {brainstormData.stormPieces.length} Stormpieces •{" "}
-          {brainstormData.likes} Likes
+          <p>
+            {brainstormData.stormPieces.length}
+            {` `}Stormpieces
+          </p>
         </StormPieces>
       </Active>
     </Container>

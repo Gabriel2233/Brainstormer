@@ -15,7 +15,7 @@ model StormPiece {
   idea         String
   author       User        @relation(fields: [authorId], references: [id])
   authorId     Int
-  likes        Int         @default(0)
+  stars        Int         @default(0)
   Brainstorm   Brainstorm? @relation(fields: [brainstormId], references: [id])
   brainstormId Int?
 }
@@ -27,8 +27,7 @@ model Brainstorm {
   active      Boolean      @default(false)
   author      User         @relation(fields: [authorId], references: [id])
   authorId    Int
-  stormPieces StormPiece[] 
-  likes       Int          @default(0)
+  stormPieces StormPiece[]
 }
 
 model User {

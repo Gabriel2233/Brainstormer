@@ -1,7 +1,8 @@
 import React from "react";
 
-import { Container } from "./styles";
-import { StormPiece as IStormPiece } from "@prisma/client";
+import { Container, LikeButton, Footer } from "./styles";
+import { StormPiece as IStormPiece } from "../../pages/user-dashboard";
+import { FiStar } from "react-icons/fi";
 
 interface Props {
   data: IStormPiece;
@@ -10,7 +11,15 @@ interface Props {
 const StormPiece: React.FC<Props> = ({ data }) => {
   return (
     <Container>
-      <h1>{JSON.stringify(data)}</h1>
+      <LikeButton>
+        <FiStar size={22} color="yellow" />
+        <p>{data.stars}</p>
+      </LikeButton>
+      <h1>{data.idea}</h1>
+
+      <Footer>
+        <p>Made 6 min ago</p>
+      </Footer>
     </Container>
   );
 };

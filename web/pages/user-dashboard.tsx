@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FiPlus } from "react-icons/fi";
 import { FaUserAstronaut } from "react-icons/fa";
 import { RiArrowDownSLine } from "react-icons/ri";
 import {
   Container,
+  Explore,
   CreateButton,
   UserWrapper,
   IconWrapper,
@@ -14,12 +15,12 @@ import { ProtectRoute } from "../utils/ProtectedRoute";
 import UserInfoModal from "../components/UserInfoModal";
 import Link from "next/link";
 import SWR from "swr";
-import UserBrainstormCard from "../components/UserBrainstormCard";
+import UserBrainstormCard from "../components/DashboardBrtCard";
 
-interface StormPiece {
+export interface StormPiece {
   id: number;
   brainstormId: number;
-  likes: number;
+  stars: number;
   idea: string;
 }
 
@@ -30,11 +31,10 @@ export interface Brainstorm {
   id: number;
   active: boolean;
   stormPieces: StormPiece[];
-  likes: number;
 }
 
-interface ApiResponse {
-  myBrainstorms: Brainstorm[];
+interface Response {
+  userBrainstorms: string;
 }
 
 const fetcher = async (route: string) => {
@@ -51,7 +51,7 @@ const UserDashboard: React.FC = () => {
     setUserModalActive(!userModalActive);
   }
 
-  const { data, error } = SWR<ApiResponse>(
+  const { data, error } = SWR<Response>(
     "/api/brainstorm/mybrainstorms",
     fetcher
   );
@@ -60,11 +60,16 @@ const UserDashboard: React.FC = () => {
     return <h1>Loading...</h1>;
   }
 
+  const userBrainstorms = JSON.parse(data.userBrainstorms);
+
   return (
     <Container onClick={!userModalActive ? null : toggleModal}>
       <Header>
-        <UserWrapper onClick={toggleModal}>
-          <IconWrapper>
+        <UserWrapper>
+          <Link href="/explore">
+            <Explore>Explore</Explore>
+          </Link>
+          <IconWrapper onClick={toggleModal}>
             <FaUserAstronaut color="var(--secondary-black)" size={24} />
           </IconWrapper>
           <RiArrowDownSLine color="var(--main-black)" size={24} />
@@ -78,7 +83,7 @@ const UserDashboard: React.FC = () => {
       </Link>
 
       <MyBrainstormsContainer>
-        {data.myBrainstorms.map((brainstorm: Brainstorm) => (
+        {userBrainstorms.map((brainstorm: Brainstorm) => (
           <Link key={brainstorm.id} href={`/brainstorm/${brainstorm.id}`}>
             <div>
               <UserBrainstormCard brainstormData={brainstorm} />
@@ -88,6 +93,7 @@ const UserDashboard: React.FC = () => {
       </MyBrainstormsContainer>
 
       {userModalActive && <UserInfoModal />}
+      {error && <span>An error ocurred</span>}
     </Container>
   );
 };

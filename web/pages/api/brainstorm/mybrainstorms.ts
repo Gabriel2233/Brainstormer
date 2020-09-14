@@ -8,18 +8,15 @@ interface User {
 }
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  let userFromCookie: User;
-
   try {
-    userFromCookie = await decryptCookie(req.cookies.auth);
+    let userFromCookie = await decryptCookie(req.cookies.auth);
 
     if (!userFromCookie) {
-      throw new Error("Cannot find user. Unable to proceed with creation.");
+      throw new Error("An error ocurred");
     }
-
     const userEmail = userFromCookie.email;
 
-    const myBrainstorms = await prisma.brainstorm.findMany({
+    const response = await prisma.brainstorm.findMany({
       where: {
         author: {
           email: userEmail,
@@ -32,8 +29,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
     });
 
-    res.status(200).json({ myBrainstorms });
+    const userBrainstorms = JSON.stringify(response);
+
+    res.status(200).json({ userBrainstorms });
   } catch (error) {
-    return res.status(401).json({ authorized: false });
+    return res.status(401).end("An error ocurred.");
   }
 };

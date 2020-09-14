@@ -5,6 +5,19 @@ export const Container = styled.div`
   height: 100vh;
 `;
 
+export const Explore = styled.button`
+  background: transparent;
+  cursor: pointer;
+  color: var(--main-salmon);
+  border: 0;
+  padding: 10px;
+  font: 600 1.5rem Inter;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  margin: 0 16px;
+`;
+
 export const CreateButton = styled.button`
   position: fixed;
   bottom: 0;

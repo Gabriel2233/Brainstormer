@@ -1,33 +1,21 @@
 import styled from "styled-components";
 
-export const Container = styled.div``;
+export const Container = styled.div`
+  width: 100vw;
+  height: 100vh;
 
-export const FlexContainer = styled.div`
-  width: 100%;
-  max-width: 1260px;
-
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 25px;
-  align-content: center;
-  justify-content: center;
-`;
-
-export const Heading = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
   flex-direction: column;
+  background: var(--brainstorm-bg);
 
-  > h4 {
-    font: 800 4rem Inter;
-    margin: 10px;
-    padding: 24px;
-  }
-
-  > p {
-    font: 600 1.5rem Inter;
-    color: var(--secondary-black);
+  div:first-child {
+    cursor: pointer;
+    display: flex;
+    align-self: flex-start;
+    margin: 24;
   }
 `;
 
@@ -39,10 +27,16 @@ export const CreateContainer = styled.div`
   box-shadow: 0px 0px 15px var(--shadow);
   border: 0;
   border-radius: 10px;
+  background: var(--main-white);
 
   margin: 36px;
   padding: 12px;
   height: 500px;
+  width: 500px;
+
+  > h1 {
+    font: 700 3rem Inter;
+  }
 `;
 
 export const Group = styled.div`
@@ -65,7 +59,9 @@ export const IdeaInput = styled.input`
 
 export const CreateButton = styled.button`
   width: 80%;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: var(--main-salmon);
   color: var(--main-white);
   padding: 24px 112px;

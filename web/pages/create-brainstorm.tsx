@@ -1,8 +1,6 @@
 import React, { useState, FormEvent } from "react";
 import {
   Container,
-  FlexContainer,
-  Heading,
   CreateContainer,
   Group,
   IdeaInput,
@@ -12,6 +10,8 @@ import Header from "../components/Header";
 import { ProtectRoute } from "../utils/ProtectedRoute";
 import { FcIdea } from "react-icons/fc";
 import Router from "next/router";
+import { FiX } from "react-icons/fi";
+import Link from "next/link";
 
 const Creation: React.FC = () => {
   const [idea, setIdea] = useState<string>("");
@@ -38,29 +38,24 @@ const Creation: React.FC = () => {
 
   return (
     <Container>
-      <Header />
+      <Link href="/user-dashboard">
+        <div>
+          <FiX size={24} color="var(--main-salmon)" />
+        </div>
+      </Link>
 
-      <FlexContainer>
-        <Heading>
-          <h4>
-            You want some ideas? <br /> That's the best place <br />
-            you could be.
-          </h4>
-          <p>A new idea, great! Just type in. Your doubts will be sufficed. </p>
-        </Heading>
-
-        <CreateContainer>
-          <FcIdea size={72} />
-          <Group>
-            <IdeaInput
-              placeholder="Your idea"
-              value={idea}
-              onChange={(e) => setIdea(e.target.value)}
-            />
-            <CreateButton onClick={createBrainstorm}>Create!</CreateButton>
-          </Group>
-        </CreateContainer>
-      </FlexContainer>
+      <CreateContainer>
+        <FcIdea size={72} />
+        <h1>Create a Brainstorm</h1>
+        <Group>
+          <IdeaInput
+            placeholder="Brainstorm title"
+            value={idea}
+            onChange={(e) => setIdea(e.target.value)}
+          />
+          <CreateButton onClick={createBrainstorm}>Create!</CreateButton>
+        </Group>
+      </CreateContainer>
     </Container>
   );
 };

@@ -9,8 +9,15 @@ import {
   SearchButton,
   CardsContainer,
 } from "../styles/ExploreStyles";
-import Card from "../components/BrainstormCard";
+import BrainstormCard from "../components/BrainstormCard";
 import SWR from "swr";
+import { Brainstorm } from "./user-dashboard";
+import useAuth from "../hooks/useAuth";
+import Link from "next/link";
+
+interface Response {
+  allBrainstorms: Brainstorm[];
+}
 
 const fetcher = async (route: string) => {
   const res = await fetch(route);
@@ -20,9 +27,12 @@ const fetcher = async (route: string) => {
 };
 
 const Explore: React.FC = () => {
-  const { data, error } = SWR("/api/brainstorm/getAll", fetcher);
+  const { data, error } = SWR<Response>("/api/brainstorm/getAll", fetcher);
+  const { user } = useAuth();
 
   if (!data) return <h1>Loading...</h1>;
+
+  const allBrainstorms = JSON.parse(data.allBrainstorms);
 
   return (
     <Container>
@@ -37,8 +47,8 @@ const Explore: React.FC = () => {
         </InputWrapper>
 
         <CardsContainer>
-          {[1, 2, 3, 4, 5].map((item) => (
-            <Card key={item} />
+          {allBrainstorms.map((brainstorm: Brainstorm) => (
+            <BrainstormCard key={brainstorm.id} brainstormData={brainstorm} />
           ))}
         </CardsContainer>
       </MainContent>

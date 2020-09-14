@@ -6,20 +6,30 @@ import {
   MainWrapper,
   ColaborateButton,
 } from "./styles";
+import { Brainstorm } from "../../pages/user-dashboard";
+import Link from "next/link";
 
-const BrainstormCard: React.FC = () => {
+interface Props {
+  brainstormData: Brainstorm;
+}
+
+const BrainstormCard: React.FC<Props> = ({ brainstormData }) => {
   return (
     <Container>
       <UserDateWrapper>
-        <p>SuperUser123</p>
+        <p>{brainstormData.stormPieces.length} collaborations</p>
         <span>6h ago • Active</span>
       </UserDateWrapper>
 
       <MainWrapper>
-        <h3>Cookign recipes</h3>
+        <h3>{brainstormData.title}</h3>
       </MainWrapper>
 
-      <ColaborateButton>Participate</ColaborateButton>
+      <Link href={`brainstorm/${brainstormData.id}`}>
+        <div>
+          <ColaborateButton>Participate</ColaborateButton>
+        </div>
+      </Link>
     </Container>
   );
 };

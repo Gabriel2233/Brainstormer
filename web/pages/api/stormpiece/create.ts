@@ -1,11 +1,15 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { decryptCookie } from "../../../lib/cookie";
 import { prisma } from "../../../lib/prisma";
-import { StormPieceCreateManyWithoutBrainstormInput } from "@prisma/client";
 
 interface User {
   email: string;
   issuer: string;
+}
+
+interface BodyPostRequest {
+  brainstormId: string;
+  idea: string;
 }
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -16,20 +20,20 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     userFromCookie = await decryptCookie(req.cookies.auth);
 
-    if (!userFromCookie) {
+    if (!userFromCookie.email) {
       throw new Error("Cannot find user. Unable to proceed with creation.");
     }
 
-    const { idea, brainstormId } = req.body;
+    const { brainstormId, idea }: BodyPostRequest = JSON.parse(req.body);
 
     const creatorEmail = userFromCookie.email;
 
-    const newStormpiece = await prisma.stormPiece.create({
+    const response = await prisma.stormPiece.create({
       data: {
-        likes: 0,
+        stars: 0,
         idea,
         Brainstorm: {
-          connect: { id: brainstormId },
+          connect: { id: parseInt(brainstormId, 10) },
         },
         author: {
           connect: { email: creatorEmail },
@@ -37,8 +41,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
     });
 
+    const newStormpiece = JSON.stringify(response);
+
     res.status(200).json({ newStormpiece });
   } catch (error) {
-    return res.status(401).json({ authorized: false, error });
+    return res.status(401).end("An error ocurred.");
   }
 };

@@ -55,9 +55,9 @@ export const SearchButton = styled.button`
 export const CardsContainer = styled.div`
   width: 90%;
   max-width: 980px;
-  margin: auto;
+  margin: 0 auto;
 
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  grid-gap: 20px;
+  gap: 20px;
 `;

@@ -47,7 +47,7 @@ export const Active = styled.div`
 `;
 
 export const Group = styled.div`
-  width: 50%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-self: flex-end;
@@ -61,8 +61,10 @@ export const Group = styled.div`
 export const StormPieces = styled.div`
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
 
-  font: 500 1.05rem Inter;
-  padding: 8px;
+  > p {
+    font: 500 1rem Inter;
+    padding: 0 16px;
+  }
 `;

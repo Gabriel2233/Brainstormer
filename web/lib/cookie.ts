@@ -8,14 +8,6 @@ interface Cookie {
   sameSite: string;
 }
 
-interface Metadata {
-  authorized: boolean;
-  user: {
-    email: string;
-    issuer: string;
-  };
-}
-
 export const cookie: Cookie = {
   maxAge: 60 * 60,
   secure: false,
@@ -24,16 +16,12 @@ export const cookie: Cookie = {
   sameSite: "strict",
 };
 
-export const decryptCookie = async (cookie: string) => {
-  return await Iron.unseal(
-    cookie,
-    process.env.ENCRYPTION_SECRET,
-    Iron.defaults
-  );
+export const decryptCookie = (cookie) => {
+  return Iron.unseal(cookie, process.env.ENCRYPTION_SECRET, Iron.defaults);
 };
 
-export const encryptCookie = async (userMetadata) => {
-  return await Iron.seal(
+export const encryptCookie = (userMetadata) => {
+  return Iron.seal(
     userMetadata,
     process.env.ENCRYPTION_SECRET,
     Iron.defaults
