@@ -16,7 +16,7 @@ import useAuth from "../hooks/useAuth";
 import Link from "next/link";
 
 interface Response {
-  allBrainstorms: Brainstorm[];
+  allBrainstorms: string;
 }
 
 const fetcher = async (route: string) => {
@@ -32,7 +32,7 @@ const Explore: React.FC = () => {
 
   if (!data) return <h1>Loading...</h1>;
 
-  const allBrainstorms = JSON.parse(data.allBrainstorms);
+  const allBrainstorms: Brainstorm[] = JSON.parse(data.allBrainstorms);
 
   return (
     <Container>
@@ -47,7 +47,7 @@ const Explore: React.FC = () => {
         </InputWrapper>
 
         <CardsContainer>
-          {allBrainstorms.map((brainstorm: Brainstorm) => (
+          {allBrainstorms.map((brainstorm) => (
             <BrainstormCard key={brainstorm.id} brainstormData={brainstorm} />
           ))}
         </CardsContainer>
