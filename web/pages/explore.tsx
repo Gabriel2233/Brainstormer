@@ -10,29 +10,17 @@ import {
   CardsContainer,
 } from "../styles/ExploreStyles";
 import BrainstormCard from "../components/BrainstormCard";
-import SWR from "swr";
 import { Brainstorm } from "./user-dashboard";
-import useAuth from "../hooks/useAuth";
 import Link from "next/link";
+import { GetStaticProps } from "next";
+import { getAllBrainstorms } from "./api/brainstorm/getAll";
 
-interface Response {
-  allBrainstorms: string;
+interface Props {
+  brainstorms: string;
 }
 
-const fetcher = async (route: string) => {
-  const res = await fetch(route);
-  const data = await res.json();
-
-  return data;
-};
-
-const Explore: React.FC = () => {
-  const { data, error } = SWR<Response>("/api/brainstorm/getAll", fetcher);
-  const { user } = useAuth();
-
-  if (!data) return <h1>Loading...</h1>;
-
-  const allBrainstorms: Brainstorm[] = JSON.parse(data.allBrainstorms);
+const Explore: React.FC<Props> = ({ brainstorms }) => {
+  const allBrainstorms: Brainstorm[] = JSON.parse(brainstorms);
 
   return (
     <Container>
@@ -57,3 +45,11 @@ const Explore: React.FC = () => {
 };
 
 export default Explore;
+
+export const getStaticProps: GetStaticProps = async () => {
+  const brainstorms = await getAllBrainstorms();
+
+  return {
+    props: { brainstorms },
+  };
+};

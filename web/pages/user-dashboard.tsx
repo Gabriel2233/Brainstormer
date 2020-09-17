@@ -27,6 +27,7 @@ export interface StormPiece {
 export interface Brainstorm {
   title: string;
   authorId: number;
+  author: { email: string };
   createdAt: string;
   id: number;
   active: boolean;
@@ -60,7 +61,7 @@ const UserDashboard: React.FC = () => {
     return <h1>Loading...</h1>;
   }
 
-  const userBrainstorms = JSON.parse(data.userBrainstorms);
+  const userBrainstorms: Brainstorm[] = JSON.parse(data.userBrainstorms);
 
   return (
     <Container onClick={!userModalActive ? null : toggleModal}>
@@ -82,15 +83,19 @@ const UserDashboard: React.FC = () => {
         </CreateButton>
       </Link>
 
-      <MyBrainstormsContainer>
-        {userBrainstorms.map((brainstorm: Brainstorm) => (
-          <Link key={brainstorm.id} href={`/brainstorm/${brainstorm.id}`}>
-            <div>
-              <UserBrainstormCard brainstormData={brainstorm} />
-            </div>
-          </Link>
-        ))}
-      </MyBrainstormsContainer>
+      {data ? (
+        <MyBrainstormsContainer>
+          {userBrainstorms.map((brainstorm: Brainstorm) => (
+            <Link key={brainstorm.id} href={`/brainstorm/${brainstorm.id}`}>
+              <div>
+                <UserBrainstormCard brainstormData={brainstorm} />
+              </div>
+            </Link>
+          ))}
+        </MyBrainstormsContainer>
+      ) : (
+        <h1>Loading...</h1>
+      )}
 
       {userModalActive && <UserInfoModal />}
       {error && <span>An error ocurred</span>}

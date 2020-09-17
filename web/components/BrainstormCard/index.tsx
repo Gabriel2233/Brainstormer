@@ -25,7 +25,11 @@ const BrainstormCard: React.FC<Props> = ({ brainstormData }) => {
         <h3>{brainstormData.title}</h3>
       </MainWrapper>
 
-      <Link href={`brainstorm/${brainstormData.id}`}>
+      <Link
+        href={
+          brainstormData.active ? `brainstorm/${brainstormData.id}` : "/explore"
+        }
+      >
         <div>
           <ColaborateButton>Participate</ColaborateButton>
         </div>

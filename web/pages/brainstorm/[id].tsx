@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, FormEvent } from "react";
 import { GetStaticProps, GetStaticPaths } from "next";
 import {
   Container,
@@ -9,7 +9,6 @@ import {
   CollaborateButton,
   StormPiecesGrid,
 } from "../../styles/BrainstormStyles";
-import { prisma } from "../../lib/prisma";
 import { Brainstorm as IBrainstorm } from "../user-dashboard";
 import { FiArrowLeft } from "react-icons/fi";
 import { GiBrain } from "react-icons/gi";
@@ -17,14 +16,32 @@ import StormPieceCreation from "../../components/StormPieceForm";
 import { StormPiece as IStormPiece } from "../user-dashboard";
 import StormPiece from "../../components/StormPiece";
 import Link from "next/link";
+import useAuth from "../../hooks/useAuth";
+import { getAllBrainstorms } from "../api/brainstorm/getAll";
+import { getBrainstormById } from "../api/brainstorm/getById";
 
 interface Props {
-  stringifiedBrainstorm: string;
+  brainstorm: string;
 }
 
-const Brainstorm: React.FC<Props> = ({ stringifiedBrainstorm }) => {
-  const { stormPieces, title }: IBrainstorm = JSON.parse(stringifiedBrainstorm);
+const Brainstorm: React.FC<Props> = ({ brainstorm }) => {
+  const { stormPieces, title, author }: IBrainstorm = JSON.parse(brainstorm);
   const [showCreate, setShowCreate] = useState<boolean>(false);
+  const { user } = useAuth();
+
+  if (!user && !author) {
+    return <h1>Loading...</h1>;
+  }
+
+  function handleCollaboration(e: FormEvent) {
+    e.preventDefault();
+
+    if (user.user.email === author.email) {
+      alert("You cannot collaborate on your own Brainstorms!");
+    } else {
+      setShowCreate(true);
+    }
+  }
 
   return (
     <Container>
@@ -46,7 +63,7 @@ const Brainstorm: React.FC<Props> = ({ stringifiedBrainstorm }) => {
           </Link>
           <HeaderText>Brainstorm on {title}</HeaderText>
         </Group>
-        <CollaborateButton onClick={() => setShowCreate(!showCreate)}>
+        <CollaborateButton onClick={handleCollaboration}>
           <GiBrain size={24} />
           {`  `}
           <p>Collaborate!</p>
@@ -71,13 +88,11 @@ const Brainstorm: React.FC<Props> = ({ stringifiedBrainstorm }) => {
 export default Brainstorm;
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const res = await prisma.brainstorm.findMany({
-    include: {
-      stormPieces: true,
-    },
-  });
+  const res = await getAllBrainstorms();
 
-  const paths = res.map((brt) => `/brainstorm/${brt.id}`);
+  const data: IBrainstorm[] = JSON.parse(res);
+
+  const paths = data.map((brt) => `/brainstorm/${brt.id}`);
 
   return {
     paths,
@@ -86,19 +101,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const res = await prisma.brainstorm.findOne({
-    where: {
-      id: Number(params.id),
-    },
+  const brtId = Number(params.id);
 
-    include: {
-      stormPieces: true,
-    },
-  });
+  const res = await getBrainstormById(brtId);
 
-  const stringifiedBrainstorm = JSON.stringify(res);
+  const brainstorm = JSON.stringify(res[0]);
 
   return {
-    props: { stringifiedBrainstorm },
+    props: { brainstorm },
   };
 };

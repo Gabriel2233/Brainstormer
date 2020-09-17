@@ -1,5 +1,4 @@
-import React from "react";
-
+import React, { FormEvent, useState } from "react";
 import { Container, LikeButton, Footer } from "./styles";
 import { StormPiece as IStormPiece } from "../../pages/user-dashboard";
 import { FiStar } from "react-icons/fi";
@@ -9,6 +8,7 @@ interface Props {
 }
 
 const StormPiece: React.FC<Props> = ({ data }) => {
+
   return (
     <Container>
       <LikeButton>

@@ -17,21 +17,18 @@ interface Props {
 const UserBrainstormCard: React.FC<Props> = ({ brainstormData }) => {
   const [active, setActive] = useState<boolean>(brainstormData.active);
 
-  // async function handleActiveness() {
-  //   setActive(!active);
-  //   try {
-  //     await fetch("/api/brainstorm/update", {
-  //       method: "PUT",
-  //       body: JSON.stringify(active),
-  //     });
-  //   } catch (err) {
-  //     alert(err);
-  //   }
-  // }
+  async function handleActiveness() {
+    setActive(!active);
 
-  // useEffect(() => {
-  //   console.log("changed");
-  // }, [active]);
+    const response = await fetch("/api/brainstorm/update", {
+      method: "PUT",
+      body: JSON.stringify(active),
+    });
+
+    const data = await response.json();
+
+    setActive(JSON.parse(data.updatedBrainstorm));
+  }
 
   return (
     <Container>
@@ -49,7 +46,7 @@ const UserBrainstormCard: React.FC<Props> = ({ brainstormData }) => {
             offHandleColor="#eee"
             onHandleColor="#eee"
             draggable={false}
-            onChange={() => setActive(!active)}
+            onChange={handleActiveness}
             checked={active}
             checkedIcon={false}
             uncheckedIcon={false}
