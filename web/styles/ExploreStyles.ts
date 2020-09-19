@@ -9,6 +9,16 @@ export const Container = styled.div`
   background: var(--main-white);
 `;
 
+export const DashboardLink = styled.button`
+  background: transparent;
+  color: var(--main-salmon);
+  padding: 10px;
+  margin: 0 16px;
+  border: 0;
+  font: 600 1.5rem Inter;
+  cursor: pointer;
+`;
+
 export const MainContent = styled.main`
   width: 100%;
   max-width: 1026px;

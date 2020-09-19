@@ -2,11 +2,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { decryptCookie } from "../../../lib/cookie";
 import { prisma } from "../../../lib/prisma";
 
-interface User {
-  email: string;
-  issuer: string;
-}
-
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     let userFromCookie = await decryptCookie(req.cookies.auth);
@@ -29,10 +24,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
     });
 
-    const userBrainstorms = JSON.stringify(response);
-
-    res.status(200).json({ userBrainstorms });
+    res.status(200).json({ response });
   } catch (error) {
-    return res.status(401).end("An error ocurred.");
+    return res.status(500).end(error.message);
   }
 };

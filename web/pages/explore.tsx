@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import { FiSearch } from "react-icons/fi";
 import {
   Container,
+  DashboardLink,
   MainContent,
   InputWrapper,
   SearchInput,
@@ -13,18 +14,29 @@ import BrainstormCard from "../components/BrainstormCard";
 import { Brainstorm } from "./user-dashboard";
 import Link from "next/link";
 import { GetStaticProps } from "next";
-import { getAllBrainstorms } from "./api/brainstorm/getAll";
+import { prisma } from "../lib/prisma";
+
+import moment from "moment";
+import useAuth from "../hooks/useAuth";
 
 interface Props {
-  brainstorms: string;
+  formatedResponse: Brainstorm[];
 }
 
-const Explore: React.FC<Props> = ({ brainstorms }) => {
-  const allBrainstorms: Brainstorm[] = JSON.parse(brainstorms);
+const Explore: React.FC<Props> = ({ formatedResponse }) => {
+  const { user } = useAuth();
+
+  if (!user) return <h1>Loading...</h1>;
 
   return (
     <Container>
-      <Header />
+      <Header>
+        {user.user.email ? (
+          <Link href="/user-dashboard">
+            <DashboardLink>Dashboard</DashboardLink>
+          </Link>
+        ) : null}
+      </Header>
 
       <MainContent>
         <InputWrapper>
@@ -35,7 +47,7 @@ const Explore: React.FC<Props> = ({ brainstorms }) => {
         </InputWrapper>
 
         <CardsContainer>
-          {allBrainstorms.map((brainstorm) => (
+          {formatedResponse.map((brainstorm: Brainstorm) => (
             <BrainstormCard key={brainstorm.id} brainstormData={brainstorm} />
           ))}
         </CardsContainer>
@@ -47,9 +59,21 @@ const Explore: React.FC<Props> = ({ brainstorms }) => {
 export default Explore;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const brainstorms = await getAllBrainstorms();
+  let response = await prisma.brainstorm.findMany({
+    include: {
+      author: true,
+      stormPieces: true,
+    },
+  });
+
+  const formatedResponse = response.map((brt) => {
+    return {
+      ...brt,
+      createdAt: brt.createdAt.toISOString(),
+    };
+  });
 
   return {
-    props: { brainstorms },
+    props: { formatedResponse },
   };
 };

@@ -28,7 +28,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const creatorEmail = userFromCookie.email;
 
-    const response = await prisma.stormPiece.create({
+    await prisma.stormPiece.create({
       data: {
         stars: 0,
         idea,
@@ -41,10 +41,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
     });
 
-    const newStormpiece = JSON.stringify(response);
-
-    res.status(200).json({ newStormpiece });
+    res.status(201).json({ message: "ok" });
   } catch (error) {
-    return res.status(401).end("An error ocurred.");
+    return res.status(500).end(error.message);
   }
 };

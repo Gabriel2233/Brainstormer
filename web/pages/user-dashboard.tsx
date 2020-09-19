@@ -28,14 +28,10 @@ export interface Brainstorm {
   title: string;
   authorId: number;
   author: { email: string };
-  createdAt: string;
+  createdAt: Date;
   id: number;
   active: boolean;
   stormPieces: StormPiece[];
-}
-
-interface Response {
-  userBrainstorms: string;
 }
 
 const fetcher = async (route: string) => {
@@ -52,16 +48,11 @@ const UserDashboard: React.FC = () => {
     setUserModalActive(!userModalActive);
   }
 
-  const { data, error } = SWR<Response>(
-    "/api/brainstorm/mybrainstorms",
-    fetcher
-  );
+  const { data, error } = SWR("/api/brainstorm/user-brainstorms", fetcher);
 
   if (!data) {
     return <h1>Loading...</h1>;
   }
-
-  const userBrainstorms: Brainstorm[] = JSON.parse(data.userBrainstorms);
 
   return (
     <Container onClick={!userModalActive ? null : toggleModal}>
@@ -83,9 +74,9 @@ const UserDashboard: React.FC = () => {
         </CreateButton>
       </Link>
 
-      {data ? (
+      {
         <MyBrainstormsContainer>
-          {userBrainstorms.map((brainstorm: Brainstorm) => (
+          {data.response.map((brainstorm: Brainstorm) => (
             <Link key={brainstorm.id} href={`/brainstorm/${brainstorm.id}`}>
               <div>
                 <UserBrainstormCard brainstormData={brainstorm} />
@@ -93,9 +84,7 @@ const UserDashboard: React.FC = () => {
             </Link>
           ))}
         </MyBrainstormsContainer>
-      ) : (
-        <h1>Loading...</h1>
-      )}
+      }
 
       {userModalActive && <UserInfoModal />}
       {error && <span>An error ocurred</span>}

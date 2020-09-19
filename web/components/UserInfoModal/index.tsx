@@ -1,4 +1,4 @@
-import React, { FormEvent } from "react";
+import React from "react";
 import { Container } from "./styles";
 import useAuth from "../../hooks/useAuth";
 
@@ -7,7 +7,7 @@ const UserInfoModal: React.FC = () => {
 
   return (
     <Container>
-      <p>{JSON.stringify(user)}</p>
+      <p>{user.user.email}</p>
       <hr />
       <button>Log Out</button>
     </Container>

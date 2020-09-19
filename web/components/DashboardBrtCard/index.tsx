@@ -9,6 +9,7 @@ import {
   StormPieces,
 } from "./styles";
 import { Brainstorm } from "../../pages/user-dashboard";
+import { FcDataProtection } from "react-icons/fc";
 
 interface Props {
   brainstormData: Brainstorm;
@@ -27,7 +28,7 @@ const UserBrainstormCard: React.FC<Props> = ({ brainstormData }) => {
 
     const data = await response.json();
 
-    setActive(JSON.parse(data.updatedBrainstorm));
+    console.log(data);
   }
 
   return (

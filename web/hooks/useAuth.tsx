@@ -9,7 +9,7 @@ interface User {
 
 export async function fetcher(route: string) {
   const response = await fetch(route);
-  const user = await response.json();
+  const user: User | null = await response.json();
 
   return user || null;
 }

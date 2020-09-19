@@ -2,11 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { decryptCookie } from "../../../lib/cookie";
 import { prisma } from "../../../lib/prisma";
 import { StormPieceCreateManyWithoutBrainstormInput } from "@prisma/client";
-
-interface User {
-  email: string;
-  issuer: string;
-}
+import { User } from "@prisma/client";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== "POST") res.status(405).end();
@@ -35,8 +31,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
     });
 
-    res.status(200).json({ message: "Success" });
+    res.status(201).json({ message: "Success" });
   } catch (error) {
-    return res.status(401).end("An error ocurred");
+    return res.status(500).end(error.message);
   }
 };

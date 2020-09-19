@@ -17,19 +17,18 @@ import { StormPiece as IStormPiece } from "../user-dashboard";
 import StormPiece from "../../components/StormPiece";
 import Link from "next/link";
 import useAuth from "../../hooks/useAuth";
-import { getAllBrainstorms } from "../api/brainstorm/getAll";
-import { getBrainstormById } from "../api/brainstorm/getById";
+import { prisma } from "../../lib/prisma";
 
 interface Props {
-  brainstorm: string;
+  formatedRespose: IBrainstorm;
 }
 
-const Brainstorm: React.FC<Props> = ({ brainstorm }) => {
-  const { stormPieces, title, author }: IBrainstorm = JSON.parse(brainstorm);
+const Brainstorm: React.FC<Props> = ({ formatedRespose }) => {
+  const { author, stormPieces, title } = formatedRespose;
   const [showCreate, setShowCreate] = useState<boolean>(false);
   const { user } = useAuth();
 
-  if (!user && !author) {
+  if (!user && !formatedRespose) {
     return <h1>Loading...</h1>;
   }
 
@@ -47,7 +46,7 @@ const Brainstorm: React.FC<Props> = ({ brainstorm }) => {
     <Container>
       <Header>
         <Group>
-          <Link href="/user-dashboard">
+          <Link href="/explore">
             <div>
               <FiArrowLeft
                 color="var(--main-salmon)"
@@ -88,11 +87,9 @@ const Brainstorm: React.FC<Props> = ({ brainstorm }) => {
 export default Brainstorm;
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const res = await getAllBrainstorms();
+  const res = await prisma.brainstorm.findMany();
 
-  const data: IBrainstorm[] = JSON.parse(res);
-
-  const paths = data.map((brt) => `/brainstorm/${brt.id}`);
+  const paths = res.map((brt) => `/brainstorm/${brt.id}`);
 
   return {
     paths,
@@ -101,13 +98,23 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const brtId = Number(params.id);
+  const res = await prisma.brainstorm.findOne({
+    where: {
+      id: Number(params.id),
+    },
 
-  const res = await getBrainstormById(brtId);
+    include: {
+      author: true,
+      stormPieces: true,
+    },
+  });
 
-  const brainstorm = JSON.stringify(res[0]);
+  const formatedRespose = {
+    ...res,
+    createdAt: res.createdAt.toISOString(),
+  };
 
   return {
-    props: { brainstorm },
+    props: { formatedRespose },
   };
 };

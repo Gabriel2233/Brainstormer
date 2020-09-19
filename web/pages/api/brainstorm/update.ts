@@ -21,7 +21,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const userEmail = userFromCookie.email;
 
-    const active: boolean = JSON.parse(req.body);
+    const active = req.body;
 
     const userInDb = await prisma.user.findOne({
       where: {
@@ -31,7 +31,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const response = await prisma.brainstorm.update({
       data: {
-        active: !active,
+        active: JSON.parse(active),
       },
 
       where: {
@@ -39,10 +39,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
     });
 
-    const updatedBrainstorm = JSON.stringify(response.active);
-
-    res.status(200).json({ updatedBrainstorm });
+    res.status(201).json({ response });
   } catch (error) {
-    return res.status(401).end("An error ocurred");
+    return res.status(500).end(error.message);
   }
 };

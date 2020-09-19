@@ -1,5 +1,5 @@
 import React from "react";
-
+import moment from "moment";
 import {
   Container,
   UserDateWrapper,
@@ -18,7 +18,10 @@ const BrainstormCard: React.FC<Props> = ({ brainstormData }) => {
     <Container>
       <UserDateWrapper>
         <p>{brainstormData.stormPieces.length} collaborations</p>
-        <span>6h ago • Active</span>
+        <span>
+          {moment(brainstormData.createdAt, "YYYY-MM-DDTHH:mm:ssZ").fromNow()} •{" "}
+          {brainstormData.active}
+        </span>
       </UserDateWrapper>
 
       <MainWrapper>
