@@ -21,8 +21,8 @@ export const DashboardLink = styled.button`
 
 export const MainContent = styled.main`
   width: 100%;
+  margin: auto;
   max-width: 1026px;
-
   display: flex;
   align-items: center;
   justify-content: center;

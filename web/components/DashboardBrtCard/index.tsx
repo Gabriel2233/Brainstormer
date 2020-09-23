@@ -9,33 +9,47 @@ import {
   StormPieces,
 } from "./styles";
 import { Brainstorm } from "../../pages/user-dashboard";
-import { FcDataProtection } from "react-icons/fc";
+import useFormatDate from "../../hooks/useFormatDate";
+import { mutate } from "swr";
 
 interface Props {
   brainstormData: Brainstorm;
 }
 
 const UserBrainstormCard: React.FC<Props> = ({ brainstormData }) => {
-  const [active, setActive] = useState<boolean>(brainstormData.active);
+  if (!brainstormData) return <h1>Loading...</h1>;
 
-  async function handleActiveness() {
+  const [active, setActive] = useState(brainstormData.active);
+
+  const formatedDate = useFormatDate(
+    (brainstormData.createdAt as unknown) as string
+  );
+
+  async function handleToggleActive() {
     setActive(!active);
 
-    const response = await fetch("/api/brainstorm/update", {
-      method: "PUT",
-      body: JSON.stringify(active),
-    });
+    try {
+      const body = {
+        active,
+        brtId: brainstormData.id,
+      };
 
-    const data = await response.json();
+      const res = await fetch("/api/brainstorm/update", {
+        method: "PUT",
+        body: JSON.stringify(body),
+      });
 
-    console.log(data);
+      mutate("/api/brainstorm/user-brainstorms");
+    } catch (err) {
+      alert(err.message);
+    }
   }
 
   return (
     <Container>
       <BrainstormInfo>
         <p>Brainstorm</p>
-        <p>6h ago</p>
+        <p>{formatedDate}</p>
       </BrainstormInfo>
       <BrainstormTitle>
         <h3>{brainstormData.title}</h3>
@@ -47,8 +61,8 @@ const UserBrainstormCard: React.FC<Props> = ({ brainstormData }) => {
             offHandleColor="#eee"
             onHandleColor="#eee"
             draggable={false}
-            onChange={handleActiveness}
-            checked={active}
+            onChange={handleToggleActive}
+            checked={brainstormData.active}
             checkedIcon={false}
             uncheckedIcon={false}
             height={15}

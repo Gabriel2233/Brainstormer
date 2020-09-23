@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FiPlus } from "react-icons/fi";
 import { FaUserAstronaut } from "react-icons/fa";
 import { RiArrowDownSLine } from "react-icons/ri";
@@ -9,13 +9,16 @@ import {
   UserWrapper,
   IconWrapper,
   MyBrainstormsContainer,
+  NoBrtContainer,
+  NoBrainstormCreated,
 } from "../styles/UserDashboardStyles";
 import Header from "../components/Header";
 import { ProtectRoute } from "../utils/ProtectedRoute";
 import UserInfoModal from "../components/UserInfoModal";
 import Link from "next/link";
-import SWR from "swr";
+import SWR, { mutate } from "swr";
 import UserBrainstormCard from "../components/DashboardBrtCard";
+import { GiBrain } from "react-icons/gi";
 
 export interface StormPiece {
   id: number;
@@ -36,7 +39,7 @@ export interface Brainstorm {
 
 const fetcher = async (route: string) => {
   const res = await fetch(route);
-  const data = await res.json();
+  const data: { response: Brainstorm[] } = await res.json();
 
   return data;
 };
@@ -44,14 +47,14 @@ const fetcher = async (route: string) => {
 const UserDashboard: React.FC = () => {
   const [userModalActive, setUserModalActive] = useState<boolean>(false);
 
-  function toggleModal() {
-    setUserModalActive(!userModalActive);
-  }
-
   const { data, error } = SWR("/api/brainstorm/user-brainstorms", fetcher);
 
   if (!data) {
     return <h1>Loading...</h1>;
+  }
+
+  function toggleModal() {
+    setUserModalActive(!userModalActive);
   }
 
   return (
@@ -74,17 +77,28 @@ const UserDashboard: React.FC = () => {
         </CreateButton>
       </Link>
 
-      {
-        <MyBrainstormsContainer>
-          {data.response.map((brainstorm: Brainstorm) => (
+      <MyBrainstormsContainer>
+        {data.response.length === 0 ? (
+          <NoBrtContainer>
+            <NoBrainstormCreated>
+              <GiBrain size={56} color="var(--secondary-black)" />
+
+              <h2>
+                You haven't got any brainstorms...
+                <br /> Start creating now!
+              </h2>
+            </NoBrainstormCreated>
+          </NoBrtContainer>
+        ) : (
+          data.response.map((brainstorm: Brainstorm) => (
             <Link key={brainstorm.id} href={`/brainstorm/${brainstorm.id}`}>
               <div>
                 <UserBrainstormCard brainstormData={brainstorm} />
               </div>
             </Link>
-          ))}
-        </MyBrainstormsContainer>
-      }
+          ))
+        )}
+      </MyBrainstormsContainer>
 
       {userModalActive && <UserInfoModal />}
       {error && <span>An error ocurred</span>}

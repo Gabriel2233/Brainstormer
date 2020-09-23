@@ -68,3 +68,29 @@ export const MyBrainstormsContainer = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   grid-gap: 20px;
 `;
+
+export const NoBrtContainer = styled.div`
+  width: 100%;
+  height: 600px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const NoBrainstormCreated = styled.div`
+  display: flex;
+  margin: auto;
+  width: 400px;
+  height: 400px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  > h2 {
+    margin: 36px;
+    text-align: center;
+    font: 500 2rem Inter;
+    color: var(--secondary-black);
+  }
+`;

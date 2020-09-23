@@ -54,7 +54,7 @@ export const Group = styled.div`
 
   > p {
     font: 600 1.5rem Inter;
-    padding: 8px;
+    padding: 0 6px;
   }
 `;
 
@@ -65,6 +65,6 @@ export const StormPieces = styled.div`
 
   > p {
     font: 500 1rem Inter;
-    padding: 0 16px;
+    padding: 0 4px;
   }
 `;

@@ -39,13 +39,6 @@ const Explore: React.FC<Props> = ({ formatedResponse }) => {
       </Header>
 
       <MainContent>
-        <InputWrapper>
-          <SearchInput placeholder="What's on your mind?" />
-          <SearchButton>
-            <FiSearch size={18} color="var(--main-white)" />
-          </SearchButton>
-        </InputWrapper>
-
         <CardsContainer>
           {formatedResponse.map((brainstorm: Brainstorm) => (
             <BrainstormCard key={brainstorm.id} brainstormData={brainstorm} />

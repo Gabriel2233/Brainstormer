@@ -1,39 +1,32 @@
+import { prisma } from "../../../lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import { decryptCookie } from "../../../lib/cookie";
-import { prisma } from "../../../lib/prisma";
-
-interface User {
-  email: string;
-  issuer: string;
-}
+import { User } from "@prisma/client";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method !== "PUT") return res.status(405).end;
-
   let userFromCookie: User;
 
   try {
     userFromCookie = await decryptCookie(req.cookies.auth);
 
-    if (!userFromCookie.email) {
+    if (!userFromCookie) {
       throw new Error("Cannot find user. Unable to proceed with creation.");
     }
 
-    const body = JSON.parse(req.body);
+    const brtId = req.query;
 
-    const response = await prisma.brainstorm.update({
-      data: {
-        active: body.active,
+    const response = await prisma.brainstorm.findOne({
+      where: {
+        id: Number(brtId.id),
       },
 
-      where: {
-        id: body.brtId,
+      include: {
+        author: true,
+        stormPieces: true,
       },
     });
 
-    await prisma.$disconnect();
-
-    res.status(201).json({ response });
+    return res.status(201).json(response);
   } catch (error) {
     return res.status(500).end(error.message);
   }

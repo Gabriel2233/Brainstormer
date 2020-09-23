@@ -38,11 +38,11 @@ export const MainWrapper = styled.div`
 `;
 
 export const ColaborateButton = styled.button`
-  padding: 6px 8px;
+  padding: 10px 8px;
   background: var(--main-white);
-  border: 2px solid var(--main-salmon);
   color: var(--main-salmon);
-  border-radius: 16px;
+  border: 0;
+  border-radius: 4px;
   cursor: pointer;
   font: 700 1.2rem Inter;
   display: flex;

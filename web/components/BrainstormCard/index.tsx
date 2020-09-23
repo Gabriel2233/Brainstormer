@@ -1,5 +1,4 @@
 import React from "react";
-import moment from "moment";
 import {
   Container,
   UserDateWrapper,
@@ -8,19 +7,25 @@ import {
 } from "./styles";
 import { Brainstorm } from "../../pages/user-dashboard";
 import Link from "next/link";
+import useFormatDate from "../../hooks/useFormatDate";
 
 interface Props {
   brainstormData: Brainstorm;
 }
 
 const BrainstormCard: React.FC<Props> = ({ brainstormData }) => {
+  const formatedDate = useFormatDate(
+    (brainstormData.createdAt as unknown) as string
+  );
+
+  console.log(brainstormData.active);
+
   return (
     <Container>
       <UserDateWrapper>
         <p>{brainstormData.stormPieces.length} collaborations</p>
         <span>
-          {moment(brainstormData.createdAt, "YYYY-MM-DDTHH:mm:ssZ").fromNow()} •{" "}
-          {brainstormData.active}
+          {formatedDate} • {brainstormData.active ? "Active" : "Unactive"}
         </span>
       </UserDateWrapper>
 
@@ -33,9 +38,7 @@ const BrainstormCard: React.FC<Props> = ({ brainstormData }) => {
           brainstormData.active ? `brainstorm/${brainstormData.id}` : "/explore"
         }
       >
-        <div>
-          <ColaborateButton>Participate</ColaborateButton>
-        </div>
+        <ColaborateButton>Participate</ColaborateButton>
       </Link>
     </Container>
   );
